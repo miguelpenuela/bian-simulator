@@ -1,6 +1,6 @@
 # Arquitectura — BIAN Enterprise Architecture Simulator
 
-> Estado: **vigente** · Última revisión: 2026-10-29 · Incremento 1
+> Estado: **vigente** · Última revisión: 2026-10-29 · Incremento 1 completado
 
 ## 1. Contexto
 

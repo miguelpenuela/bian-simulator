@@ -5,19 +5,19 @@
 El trabajo avanza en **incrementos verticales**: cada incremento entrega una
 funcionalidad completa (BD → API → UI → pruebas) en lugar de capas aisladas.
 
-## Incremento 1 — Base técnica + identidad + exploración de catálogo *(en curso)*
+## Incremento 1 — Base técnica + identidad + exploración de catálogo *(completado)*
 
 Cubre la Fase 1, la Fase 2 y la parte de lectura de la Fase 3.
 
 - [x] Documentación de arquitectura, modelo de datos y ADRs
-- [ ] Backend Spring Boot 4 con Flyway, Actuator, OpenAPI y errores RFC 9457
-- [ ] Login por sesión con CSRF, bloqueo por intentos, roles y permisos
-- [ ] Auditoría de inicio/cierre de sesión
-- [ ] API de catálogo: versiones, facetas, búsqueda paginada y ficha de detalle
-- [ ] Catálogo de demostración etiquetado (`EDUCATIONAL_DEMO`, `UNVERIFIED`)
-- [ ] Frontend: login, layout, dashboard básico, explorador y ficha
-- [ ] Docker Compose, Dockerfiles y `.env.example`
-- [ ] CI en GitHub Actions (backend con Testcontainers, frontend, smoke de compose)
+- [x] Backend Spring Boot 4 con Flyway, Actuator, OpenAPI y errores RFC 9457
+- [x] Login por sesión con CSRF, bloqueo por intentos, roles y permisos
+- [x] Auditoría de inicio/cierre de sesión
+- [x] API de catálogo: versiones, facetas, búsqueda paginada y ficha de detalle
+- [x] Catálogo de demostración etiquetado (`EDUCATIONAL_DEMO`, `UNVERIFIED`)
+- [x] Frontend: login, layout, dashboard básico, explorador y ficha
+- [x] Docker Compose, Dockerfiles y `.env.example`
+- [x] CI en GitHub Actions (backend con Testcontainers, frontend, smoke de compose)
 
 **Criterio de aceptación**: un usuario inicia sesión, busca y filtra el catálogo
 y navega a la ficha de un Service Domain y sus elementos relacionados; todo
