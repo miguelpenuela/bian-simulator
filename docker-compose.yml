@@ -1,0 +1,50 @@
+# Entorno local completo: PostgreSQL + backend + frontend (nginx).
+# Uso: cp .env.example .env  (edite las contraseñas)  &&  docker compose up --build
+name: bian-simulator
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bian_simulator}
+      POSTGRES_USER: ${POSTGRES_USER:-bian}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD en .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-demo}
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-bian_simulator}
+      DB_USERNAME: ${POSTGRES_USER:-bian}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DEMO_USER_USERNAME: ${DEMO_USER_USERNAME:-demo}
+      DEMO_USER_PASSWORD: ${DEMO_USER_PASSWORD:-}
+      SESSION_TIMEOUT: ${SESSION_TIMEOUT:-30m}
+      # En local se sirve por HTTP; en producción (HTTPS) debe ser true.
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      # Confía en X-Forwarded-* solo desde proxies de red interna (nginx).
+      SERVER_FORWARD_HEADERS_STRATEGY: native
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${APP_PORT:-8081}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

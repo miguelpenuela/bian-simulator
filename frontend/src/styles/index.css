@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Instrument Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Superficies */
+  --color-paper: #f1f4f3;
+  --color-surface: #ffffff;
+  --color-line: #d2d9d7;
+  --color-line-strong: #a9b4b1;
+
+  /* Tinta */
+  --color-ink: #17232d;
+  --color-ink-soft: #4a5a66;
+  --color-ink-faint: #6f7d86;
+
+  /* Acción principal: verde contable */
+  --color-ledger: #0e6b58;
+  --color-ledger-strong: #0a5243;
+  --color-ledger-wash: #e3f1ec;
+
+  /* Procedencia no verificada / demostración */
+  --color-caution: #8a560c;
+  --color-caution-bg: #fbf0d9;
+  --color-caution-stripe: #f3dfb3;
+
+  --color-danger: #a8261d;
+  --color-danger-wash: #fbe9e7;
+
+  /* Tipos de elemento del catálogo (codifican información, no decoran) */
+  --color-type-area: #3d4f8f;
+  --color-type-domain: #5b6b2e;
+  --color-type-sd: #0e6b58;
+  --color-type-op: #6a4c93;
+  --color-type-cr: #8a5a2b;
+  --color-type-bo: #2f6a8a;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ledger);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Sombreado de plano técnico: marca todo contenido no verificado o de demostración. */
+  .hatch-caution {
+    background-color: var(--color-caution-bg);
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 9px,
+      var(--color-caution-stripe) 9px 11px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .input {
+    display: block;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-surface);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-ink);
+  }
+  .input:focus-visible {
+    outline: 2px solid var(--color-ledger);
+    outline-offset: 0;
+    border-color: var(--color-ledger);
+  }
+  .input[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+}
