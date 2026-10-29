@@ -28,6 +28,24 @@ jobs:
           cache: maven
       - name: Build and test
         run: mvn -B -ntp verify
+      - name: Publish test summary as annotations
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import glob, xml.etree.ElementTree as ET
+          total = failed = skipped = 0
+          for f in glob.glob('target/surefire-reports/TEST-*.xml') + glob.glob('target/failsafe-reports/TEST-*.xml'):
+              suite = ET.parse(f).getroot()
+              total += int(suite.get('tests', 0)); skipped += int(suite.get('skipped', 0))
+              for case in suite.iter('testcase'):
+                  for kind in ('failure', 'error'):
+                      el = case.find(kind)
+                      if el is not None:
+                          failed += 1
+                          msg = (el.get('message') or el.text or '').replace('\n', ' ')[:900]
+                          print(f"::error title={case.get('classname')}.{case.get('name')}::{kind}: {msg}")
+          print(f"::notice title=Backend tests::total={total} failed={failed} skipped={skipped}")
+          PY
       - name: Upload test reports
         if: failure()
         uses: actions/upload-artifact@v4
