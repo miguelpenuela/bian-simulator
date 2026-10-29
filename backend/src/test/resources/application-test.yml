@@ -1,0 +1,9 @@
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/demo
+app:
+  demo:
+    user:
+      username: demo
+      # Valor exclusivo de pruebas automatizadas, no es una credencial real.
+      password: test-only-Passw0rd!
